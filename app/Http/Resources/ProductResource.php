@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'price'=>$this->Price,
             'ProductFile'=>$this->ProductFile,
             'IsAvailable'=>'true',
-            'isFeatured'=>'false',
+            'isFeatured'=>$this->isFeatured,
             'categoryID'=>$this->CategoryID,
 
         ];

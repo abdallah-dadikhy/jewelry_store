@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class FavoritesController extends Controller
 {
-    // عرض كل المفضلات لمستخدم معيّن
     public function index(Request $request)
     {
         $userId = $request->user()->UserID;

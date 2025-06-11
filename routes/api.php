@@ -48,6 +48,7 @@ Route::controller(ProductController::class)->group(function(){
     Route::post('deleteproduct/{id}','destroy');
     Route::get('products/featured','featured');
     Route::get('products/filter','filter');
+    Route::put('products/{id}/feature','markAsFeatured');
 });
 
 ##-------------------------------------- Admin review request module
@@ -94,8 +95,8 @@ Route::controller(NotificationController::class)->group(function(){
 });
 
 ##-------------------------------------- User module
+Route::get('user/current',[AdminUserController::class,'current']);     
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
-    Route::get('user/current',[AdminUserController::class,'current']);     
     Route::controller(AdminUserController::class)->group(function () {
         Route::get('users', 'index');               
         Route::get('user/{id}', 'show');          

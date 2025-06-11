@@ -115,7 +115,6 @@ class ProductController extends Controller
         return ApiResponse::sendResponse(200, 'Product deleted successfully');
     }
 
-    // عرض المنتجات المميزة
     public function featured()
     {
         $featuredProducts = Product::where('IsFeatured', true)->get();
@@ -125,6 +124,25 @@ class ProductController extends Controller
         }
 
         return ApiResponse::sendResponse(200, 'Featured products retrieved successfully', ProductResource::collection($featuredProducts));
+    }
+    
+    public function markAsFeatured(Request $request ,$id){
+        $product = Product::where('ProductID', $id)->first();
+
+        if (!$product) {
+            return ApiResponse::sendResponse(404, 'Product not found', null);
+        }
+
+        $validator=Validator::make($request->all,[
+            'IsFeatured'=>'required|boolean'
+        ]);
+        if($validator->fails()){
+            return ApiResponse::sendResponse(422, $validator->errors(), null);
+        }
+        $product->IsFeatured=true;
+        $product->save();
+        return ApiResponse::sendResponse(200,'product is featured',new ProductResource($product));
+
     }
 
     // فلترة المنتجات
