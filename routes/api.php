@@ -95,7 +95,7 @@ Route::controller(NotificationController::class)->group(function(){
 });
 
 ##-------------------------------------- User module
-Route::get('user/current',[AdminUserController::class,'current']);
+Route::middleware('auth:sanctum')->get('user/current',[AdminUserController::class,'current']);
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::controller(AdminUserController::class)->group(function () {
         Route::get('users', 'index');               
