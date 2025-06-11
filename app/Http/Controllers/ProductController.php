@@ -44,18 +44,14 @@ class ProductController extends Controller
             return ApiResponse::sendResponse(422, $validator->errors(), null);
         }
 
-        // رفع الملف وحفظه
-        $filePath = null;
+ $filePath = null;
 
         if ($request->hasFile('ProductFile')) {
             $file = $request->file('ProductFile');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads/products', $filename, 'public');
+            $filePath = $file->store('uploads/products', 'public');
         }
-
         $productData = $request->all();
-        $productData['ImageURL'] = $filePath;
-
+        $productData['ProductFile'] = $filePath; 
         $product = Product::create($productData);
 
         // إرسال إشعار للأدمن
