@@ -23,7 +23,6 @@ class ProductResource extends JsonResource
             'ProductFile'=>$this->ProductFile,
             'isFeatured'=>$this->IsFeatured,
             'categoryID'=>$this->CategoryID,
-
         ];
     }
 }
