@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             'decription'=>$this->Description,
             'weight'=>$this->Weight,
             'price'=>$this->Price,
-            'ProductFile' => $this->ProductFile ? asset($this->ProductFile) : null,
+            'ProductFile' => $this->ProductFile ? asset('storage/' . $this->ProductFile) : null,
             'isFeatured'=>$this->IsFeatured,
             'categoryID'=>$this->CategoryID,
         ];
