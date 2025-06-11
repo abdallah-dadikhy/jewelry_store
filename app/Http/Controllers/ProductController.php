@@ -90,13 +90,10 @@ class ProductController extends Controller
             return ApiResponse::sendResponse(422, $validator->errors(), null);
         }
 
-        // إذا تم رفع ملف جديد
-        if ($request->hasFile('ProductFile')) {
-            $file = $request->file('ProductFile');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads/products', $filename, 'public');
-            $request->merge(['ProductFile' => $filePath]);
-        }
+        $file = $request->file('ProductFile');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public/products', $filename);
+        $productData['ProductFile'] = 'storage/products/' . $filename;
 
         $product->update($request->all());
 
