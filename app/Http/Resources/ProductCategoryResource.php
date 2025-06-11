@@ -18,7 +18,7 @@ class ProductCategoryResource extends JsonResource
             'category_ID'=>$this->CategoryID,    
             'name'=>$this->Name,
             'description'=>$this->Description,
-            'categoryFile'=>$this->CategoryFile
+            'CategoryFile' => $this->CategoryFile ? asset('storage/' . $this->CategoryFile) : null,
         ];
     }
 }
