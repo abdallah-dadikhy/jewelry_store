@@ -126,8 +126,8 @@ class ProductController extends Controller
         return ApiResponse::sendResponse(200, 'Featured products retrieved successfully', ProductResource::collection($featuredProducts));
     }
 
-    public function markAsFeatured(Request $request ,$id){
-        $product = Product::where('ProductID', $id)->first();
+    public function markAsFeatured($id){
+        $product = Product::find($id);
 
         if (!$product) {
             return ApiResponse::sendResponse(404, 'Product not found', null);
