@@ -21,8 +21,7 @@ class ProductResource extends JsonResource
             'weight'=>$this->Weight,
             'price'=>$this->Price,
             'ProductFile'=>$this->ProductFile,
-            'IsAvailable'=>'true',
-            'isFeatured'=>$this->isFeatured,
+            'isFeatured'=>$this->IsFeatured,
             'categoryID'=>$this->CategoryID,
 
         ];
