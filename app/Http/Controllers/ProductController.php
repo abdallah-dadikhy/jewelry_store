@@ -95,7 +95,7 @@ class ProductController extends Controller
             $file = $request->file('ProductFile');
             $filename = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/products', $filename, 'public');
-            $request->merge(['ImageURL' => $filePath]);
+            $request->merge(['ProductFile' => $filePath]);
         }
 
         $product->update($request->all());
