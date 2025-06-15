@@ -14,27 +14,26 @@ class ReviewRequestController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'UserID' => 'required|exists:users,UserID',
+            'UserID' => 'sometimes|exists:users,UserID',
             'ProductName' => 'required|string|max:255',
             'Description' => 'nullable|string',
             'ProductWeight' => 'required|numeric',
-            'ProductPrice' => 'required|numeric',
+            'ProductPrice' => 'sometimes|numeric',
             'ProductFile' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
         $filePath = null;
         if ($request->hasFile('ProductFile')) {
             $file = $request->file('ProductFile');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads/review_requests', $filename, 'public');
+            $filePath = $file->store('uploads/review_requests','public');
         }
-
+        
         $review = ReviewRequest::create([
-            'UserID' => $validated['UserID'],
+            'UserID' => $validated['UserID'] ?? null,
             'ProductName' => $validated['ProductName'],
             'ProductDescription' => $validated['Description'] ?? null,
             'ProductWeight' => $validated['ProductWeight'],
-            'ProductPrice' => $validated['ProductPrice'],
+            'ProductPrice' => $validated['ProductPrice'] ?? null,
             'ProductImages' => $filePath,
             'SubmissionDate' => now(),
             'Status' => 'pending',
@@ -55,15 +54,6 @@ class ReviewRequestController extends Controller
             return ApiResponse::sendResponse(404, 'الطلب غير موجود أو مراجع مسبقاً');
         }
 
-        $product = Product::create([
-            'Name' => $review->ProductName,
-            'Description' => $review->ProductDescription,
-            'Weight' => $review->ProductWeight,
-            'Price' => $review->ProductPrice,
-            'ProductFile' => $review->ProductImages,
-            'CategoryID' => 1,
-            'IsFeatured' => false,
-        ]);
 
         $review->Status = 'approved';
         $review->AdminComments = 'تمت الموافقة';
@@ -71,7 +61,7 @@ class ReviewRequestController extends Controller
 
         $review->user->notify(new ReviewRequestStatusNotification('approved'));
 
-        return ApiResponse::sendResponse(200, 'تمت الموافقة وإضافة المنتج', $product);
+        return ApiResponse::sendResponse(200, 'تمت الموافقة وإضافة المنتج', null);
     }
 
     public function reject(Request $request, $id)

@@ -35,6 +35,7 @@ class ProductController extends Controller
             'Description' => 'required|string',
             'Weight' => 'required|numeric',
             'Price' => 'required|numeric',
+            'quantity' => 'required|integer|min:0',
             'ProductFile' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'IsFeatured' => 'boolean',
             'CategoryID' => 'required|exists:product_categories,CategoryID',
@@ -44,8 +45,8 @@ class ProductController extends Controller
             return ApiResponse::sendResponse(422, $validator->errors(), null);
         }
 
- $filePath = null;
-
+        $filePath = null;
+        
         if ($request->hasFile('ProductFile')) {
             $file = $request->file('ProductFile');
             $filePath = $file->store('uploads/products', 'public');
@@ -76,6 +77,7 @@ class ProductController extends Controller
             'Description' => 'sometimes|required|string',
             'Weight' => 'sometimes|required|numeric',
             'Price' => 'sometimes|required|numeric',
+            'quantity' => 'required|integer|min:0',
             'ProductFile' => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'IsFeatured' => 'sometimes|boolean',
             'CategoryID' => 'sometimes|required|exists:product_categories,CategoryID',

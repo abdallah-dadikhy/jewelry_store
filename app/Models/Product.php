@@ -15,6 +15,7 @@ class Product extends Model
         'CategoryID',
         'Weight',
         'Price',
+        'quantity',
         'ProductFile',
         'SellerID',
         'IsFeatured'
