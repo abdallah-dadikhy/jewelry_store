@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\ApiResponse;
+use App\Http\Resources\UserAdminResource;
 use Illuminate\Support\Facades\Validator;
 
 class AdminUserController extends Controller
@@ -13,13 +14,13 @@ class AdminUserController extends Controller
     public function index()
     {
         $users = User::all();
-        return ApiResponse::sendResponse(200, 'All users retrieved', $users);
+        return ApiResponse::sendResponse(200, 'All users retrieved',UserAdminResource::collection($users));
     }
 
     public function current(Request $request)
     {
         if ($request->user()) {
-            return ApiResponse::sendResponse(200, 'Current user',$request->user());
+            return ApiResponse::sendResponse(200, 'Current user',new UserAdminResource($request->user()));
         } else {
             return ApiResponse::sendResponse(401, 'no user in', null);
         }
@@ -31,7 +32,7 @@ class AdminUserController extends Controller
         if (!$user) {
             return ApiResponse::sendResponse(404, 'User not found', null);
         }
-        return ApiResponse::sendResponse(200, 'User retrieved', $user);
+        return ApiResponse::sendResponse(200, 'User retrieved', new UserAdminResource($user));
     }
 
     public function store(Request $request)
@@ -50,7 +51,7 @@ class AdminUserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
         $user = User::create($validated);
 
-        return ApiResponse::sendResponse(201, 'User created successfully', $user);
+        return ApiResponse::sendResponse(201, 'User created successfully',new UserAdminResource($user));
     }
 
     public function update(Request $request, $id)
@@ -82,7 +83,7 @@ class AdminUserController extends Controller
 
     $user->update($validated);
 
-    return ApiResponse::sendResponse(200, 'User updated successfully', $user);
+    return ApiResponse::sendResponse(200, 'User updated successfully', new UserAdminResource($user));
 }
 
 

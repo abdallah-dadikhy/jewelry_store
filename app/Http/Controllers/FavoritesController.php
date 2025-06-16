@@ -29,7 +29,6 @@ class FavoritesController extends Controller
         return ApiResponse::sendResponse(200, 'Favorites retrieved successfully', $products);
     }
 
-    // عرض مفضل محدد
     public function show($id)
     {
         $favorite = Favorites::with('product')->find($id);
@@ -41,7 +40,6 @@ class FavoritesController extends Controller
         return ApiResponse::sendResponse(200, 'Favorite retrieved successfully', new ProductResource($favorite->product));
     }
 
-    // إضافة منتج للمفضلة
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -71,7 +69,6 @@ class FavoritesController extends Controller
         return ApiResponse::sendResponse(200, 'Product added to favorites',new FavoriteResource($favorite));
     }
 
-    // حذف منتج من المفضلة
     public function destroy($id)
     {
         $favorite = Favorites::find($id);

@@ -15,10 +15,11 @@ class ProductCategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'category_ID'=>$this->CategoryID,    
+            'id'=>$this->CategoryID,    
             'name'=>$this->Name,
             'description'=>$this->Description,
-            'CategoryFile' => $this->CategoryFile ? asset('storage/' . $this->CategoryFile) : null,
+            'smithing'=>$this->smithing,
+            'categoryFile' => $this->CategoryFile ? asset('storage/' . $this->CategoryFile) : null,
         ];
     }
 }

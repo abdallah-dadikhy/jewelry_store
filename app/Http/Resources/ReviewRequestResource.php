@@ -15,12 +15,12 @@ class ReviewRequestResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-        'ProductName'=>$this->ProductName,
-        'ProductDescription'=>$this->ProductDescription,
-        'ProductWeight'=>$this->ProductWeight,
-        'ProductImages' => $this->ProductFile ? asset('storage/' . $this->ProductImages) : null,
-        'Status'=>$this->Status,
-        'SubmissionDate'=>$this->SubmissionDate
+        'productName'=>$this->ProductName,
+        'productDescription'=>$this->ProductDescription,
+        'productWeight'=>$this->ProductWeight,
+        'productImages' => $this->ProductFile ? asset('storage/' . $this->ProductImages) : null,
+        'status'=>$this->Status,
+        'submissionDate'=>$this->SubmissionDate
         ];
     }
 }

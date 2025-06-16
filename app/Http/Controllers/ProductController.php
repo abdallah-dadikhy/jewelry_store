@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\NewProductNotification;
 
+
 class ProductController extends Controller
 {
     public function index()
@@ -55,7 +56,6 @@ class ProductController extends Controller
         $productData['ProductFile'] = $filePath; 
         $product = Product::create($productData);
 
-        // إرسال إشعار للأدمن
         $admins = User::where('UserType', 'admin')->get();
         foreach ($admins as $admin) {
             $admin->notify(new NewProductNotification($product));
@@ -93,7 +93,6 @@ class ProductController extends Controller
             $filePath = $file->store('uploads/products', 'public');
             $productData['ProductFile'] = $filePath; 
         } else {
-            // إذا لم يتم إرسال ملف جديد، لا تقم بتغيير ProductFile في ProductData
             unset($productData['ProductFile']); 
         }
 
@@ -137,7 +136,6 @@ class ProductController extends Controller
 
     }
 
-    // فلترة المنتجات
     public function filter(Request $request)
     {
         $query = Product::query();

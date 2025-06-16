@@ -15,10 +15,10 @@ class FavoriteResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'=>$this->FavoriteID,
             'userid'=>$this->UserID,
             'productid'=>$this->ProductID,
-            'facoriteid'=>$this->FavoriteID,
-            'date add'=>now(),
+            'date add'=>$this->AddedDate,
         ];
     }
 }

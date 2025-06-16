@@ -15,15 +15,16 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'product_id'=>$this->ProductID,
+            'id'=>$this->ProductID,
             'name'=>$this->Name,
             'decription'=>$this->Description,
             'weight'=>$this->Weight,
             'price'=>$this->Price,
             'quantity'=>$this->quantity,
             'productFile' => $this->ProductFile ? asset('storage/' . $this->ProductFile) : null,
-            'isFeatured'=>$this->IsFeatured,
             'category_name' => $this->Category ? $this->Category->Name : null,
+            'isFeatured'=>$this->IsFeatured,
+            'categoryid'=>$this->CategoryID,
         ];
     }
 }

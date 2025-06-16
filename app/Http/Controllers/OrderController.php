@@ -13,18 +13,14 @@ use App\Notifications\NewOrderNotification;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $orders = Order::with('orderDetails')->get(); 
         return ApiResponse::sendResponse(200, 'show orders successfuly',OrderResource::collection($orders));
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show($id)
     {
         $order = Order::with('orderDetails')->find($id);
@@ -35,9 +31,6 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -58,7 +51,6 @@ class OrderController extends Controller
           try {
         DB::beginTransaction();
 
-        // إنشاء الطلب
         $order = new Order();
         $order->UserID = $request->UserID;
         $order->OrderDate = $request->OrderDate;
@@ -93,9 +85,7 @@ class OrderController extends Controller
         }
 
     }
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, $id)
     {
          $order = Order::find($id);
@@ -118,9 +108,6 @@ class OrderController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $order = Order::find($id);
