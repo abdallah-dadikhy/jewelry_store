@@ -77,11 +77,8 @@ class AdminUserController extends Controller
 
     $validated = $validator->validated();
 
-    if (isset($validated['password'])) {
-        $validated['password'] = Hash::make($validated['password']);
-    }
 
-    $user->update($validated);
+    $user->update($validated)->only('password');
 
     return ApiResponse::sendResponse(200, 'User updated successfully', new UserAdminResource($user));
 }
