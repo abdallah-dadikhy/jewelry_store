@@ -20,7 +20,7 @@ class AdminUserController extends Controller
     public function current(Request $request)
     {
         if ($request->user()) {
-            return ApiResponse::sendResponse(200, 'Current user',new UserAdminResource($request->user()));
+            return ApiResponse::sendResponse(200, 'Current user',$request->user());
         } else {
             return ApiResponse::sendResponse(401, 'no user in', null);
         }

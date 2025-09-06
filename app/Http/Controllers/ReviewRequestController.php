@@ -14,11 +14,10 @@ class ReviewRequestController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'UserID' => 'sometimes|exists:users,UserID',
             'ProductName' => 'required|string|max:255',
             'Description' => 'nullable|string',
             'ProductWeight' => 'required|numeric',
-            'ProductPrice' => 'sometimes|numeric',
+            'ProductPrice' => 'requierd|numeric',
             'ProductFile' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
@@ -29,7 +28,7 @@ class ReviewRequestController extends Controller
         }
         
         $review = ReviewRequest::create([
-            'UserID' => $validated['UserID'] ?? null,
+            'UserID' => auth()->id(),
             'ProductName' => $validated['ProductName'],
             'ProductDescription' => $validated['Description'] ?? null,
             'ProductWeight' => $validated['ProductWeight'],

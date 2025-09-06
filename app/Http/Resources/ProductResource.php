@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             'id'=>$this->ProductID,
             'name'=>$this->Name,
             'decription'=>$this->Description,
-            'weight'=>$this->Weight,
+            'karat'=>$this->karat,
             'price'=>$this->Price,
             'quantity'=>$this->quantity,
             'productFile' => $this->ProductFile ? asset('storage/' . $this->ProductFile) : null,

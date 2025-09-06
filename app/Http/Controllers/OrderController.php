@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('orderDetails')->get(); 
-        return ApiResponse::sendResponse(200, 'show orders successfuly',OrderResource::collection($orders));
+        return ApiResponse::sendResponse(200, 'show orders successfuly',$orders);
     }
 
 
@@ -25,7 +25,7 @@ class OrderController extends Controller
     {
         $order = Order::with('orderDetails')->find($id);
         if ($order) {
-            return ApiResponse::sendResponse(200, 'show order successfuly',new OrderResource($order));
+            return ApiResponse::sendResponse(200, 'show order successfuly',$order);
         } else {
             return ApiResponse::sendResponse(404, 'order not found', null);
         }
