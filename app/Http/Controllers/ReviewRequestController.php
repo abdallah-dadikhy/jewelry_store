@@ -17,7 +17,7 @@ class ReviewRequestController extends Controller
             'ProductName' => 'required|string|max:255',
             'Description' => 'nullable|string',
             'ProductWeight' => 'required|numeric',
-            'ProductPrice' => 'requierd|numeric',
+            'ProductPrice' => 'required|numeric',
             'ProductFile' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
