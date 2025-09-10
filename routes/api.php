@@ -54,6 +54,7 @@ Route::controller(ProductController::class)->group(function(){
 ##-------------------------------------- Admin review request module
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::controller(ReviewRequestController::class)->group(function () {
+        Route::get('review-requests','index');
         Route::put('admin/review-requests/{id}/approve', 'approve'); 
         Route::put('admin/review-requests/{id}/reject', 'reject'); 
     });

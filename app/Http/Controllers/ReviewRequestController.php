@@ -11,6 +11,11 @@ use App\Helpers\ApiResponse;
 
 class ReviewRequestController extends Controller
 {
+     public function index()
+    {
+        $reviewRequest = ReviewRequest::all();
+        return ApiResponse::sendResponse(200, 'عرض الفئات بنجاح', $reviewRequest);
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,7 +37,7 @@ class ReviewRequestController extends Controller
             'ProductName' => $validated['ProductName'],
             'ProductDescription' => $validated['Description'] ?? null,
             'ProductWeight' => $validated['ProductWeight'],
-            'ProductPrice' => $validated['ProductPrice'] ?? null,
+            'ProductPrice' => $validated['ProductPrice'] ,
             'ProductImages' => $filePath,
             'SubmissionDate' => now(),
             'Status' => 'pending',
@@ -49,7 +54,7 @@ class ReviewRequestController extends Controller
     public function approve($id)
     {
         $review = ReviewRequest::find($id);
-        if (!$review || $review->Status !== 'pending') {
+        if (!$review || $review->Status != 'pending') {
             return ApiResponse::sendResponse(404, 'الطلب غير موجود أو مراجع مسبقاً');
         }
 

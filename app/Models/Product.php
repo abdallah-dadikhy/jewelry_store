@@ -13,11 +13,10 @@ class Product extends Model
         'Name',
         'Description',
         'CategoryID',
+        'Weight',
         'karat',
-        'Price',
         'quantity',
         'ProductFile',
-        'SellerID',
         'IsFeatured'
     ];
 
