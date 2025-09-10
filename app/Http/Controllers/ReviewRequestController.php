@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Product;
 use App\Models\ReviewRequest;
@@ -18,38 +19,52 @@ class ReviewRequestController extends Controller
     }
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'ProductName' => 'required|string|max:255',
-            'Description' => 'nullable|string',
-            'ProductWeight' => 'required|numeric',
-            'ProductPrice' => 'required|numeric',
-            'ProductFile' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
-        ]);
+        $validator = Validator::make($request->all(), [
+    'ProductName'   => 'required|string|max:255',
+    'Description'   => 'nullable|string',
+    'ProductWeight' => 'required|numeric',
+    'ProductPrice'  => 'required|numeric',
+    'ProductFile'   => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+]);
 
-        $filePath = null;
-        if ($request->hasFile('ProductFile')) {
-            $file = $request->file('ProductFile');
-            $filePath = $file->store('uploads/review_requests','public');
-        }
-        
-        $review = ReviewRequest::create([
-            'UserID' => auth()->id(),
-            'ProductName' => $validated['ProductName'],
-            'ProductDescription' => $validated['Description'] ?? null,
-            'ProductWeight' => $validated['ProductWeight'],
-            'ProductPrice' => $validated['ProductPrice'] ,
-            'ProductImages' => $filePath,
-            'SubmissionDate' => now(),
-            'Status' => 'pending',
-        ]);
+if ($validator->fails()) {
+    return response()->json([
+        'success' => false,
+        'errors' => $validator->errors()
+    ], 422);
+}
 
-        $admins = User::where('UserType', 'admin')->get();
+$validated = $validator->validated();
+
+$filePath = null;
+if ($request->hasFile('ProductFile')) {
+    $file = $request->file('ProductFile');
+    $filePath = $file->store('uploads/review_requests', 'public');
+}
+
+$review = ReviewRequest::create([
+    'UserID'             => auth()->id(),
+    'ProductName'        => $validated['ProductName'],
+    'ProductDescription' => $validated['Description'] ?? null,
+    'ProductWeight'      => $validated['ProductWeight'],
+    'ProductPrice'       => $validated['ProductPrice'],
+    'ProductImages'      => $filePath,
+    'SubmissionDate'     => now(),
+    'Status'             => 'pending',
+]);
+
+
+            $admins = User::where('UserType', 'admin')->get();
         foreach ($admins as $admin) {
             $admin->notify(new ReviewRequestStatusNotification('new_request', null, $review));
         }
 
-        return ApiResponse::sendResponse(200, 'تم إرسال الطلب بنجاح', $review);
-    }
+        return response()->json([
+    'success' => true,
+    'message' => 'Review request submitted successfully',
+    'data'    => $review
+], 201);
+ }
 
     public function approve($id)
     {

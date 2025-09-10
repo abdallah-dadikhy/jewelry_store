@@ -78,23 +78,22 @@ class ProductController extends Controller
             'Weight' => 'sometimes|required|numeric',
             'karat' => 'sometimes|required|numeric',
             'quantity' => 'required|integer|min:0',
-            'ProductFile' => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            // 'ProductFile' => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'IsFeatured' => 'sometimes|boolean',
             'CategoryID' => 'sometimes|required|exists:product_categories,CategoryID',
-            'SellerID' => 'sometimes|required|exists:users,UserID',
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails()) {  
             return ApiResponse::sendResponse(422, $validator->errors(), null);
         }
 
-       if ($request->hasFile('ProductFile')) {
-            $file = $request->file('ProductFile');
-            $filePath = $file->store('uploads/products', 'public');
-            $productData['ProductFile'] = $filePath; 
-        } else {
-            unset($productData['ProductFile']); 
-        }
+    //    if ($request->hasFile('ProductFile')) {
+    //         $file = $request->file('ProductFile');
+    //         $filePath = $file->store('uploads/products', 'public');
+    //         $productData['ProductFile'] = $filePath; 
+    //     } else {
+    //         unset($productData['ProductFile']); 
+    //     }
 
         $product->update($request->all());
 
