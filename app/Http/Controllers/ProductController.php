@@ -16,14 +16,14 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return ApiResponse::sendResponse(200, 'Products retrieved successfully', ProductResource::collection($products));
+        return ApiResponse::sendResponse(200, 'Products retrieved successfully', $products);
     }
 
     public function show($id)
     {
         $product = Product::where('ProductID', $id)->first();
         if ($product) {
-            return ApiResponse::sendResponse(200, 'Product retrieved successfully', new ProductResource($product));
+            return ApiResponse::sendResponse(200, 'Product retrieved successfully', $product);
         } else {
             return ApiResponse::sendResponse(404, 'Product not found', null);
         }
@@ -61,7 +61,7 @@ class ProductController extends Controller
             $admin->notify(new NewProductNotification($product));
         }
 
-        return ApiResponse::sendResponse(201, 'Product created successfully', new ProductResource($product));
+        return ApiResponse::sendResponse(201, 'Product created successfully',$product);
     }
 
     public function update(Request $request, $id)
